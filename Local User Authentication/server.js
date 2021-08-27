@@ -35,8 +35,39 @@ app.get('/login', (req,res) => {
 })
 
 app.post('/login', async (req,res) => {
-    
+    const user = await Users.findOne({where: { username: req.body.username }})
+   if(!user){
+    return res.status(404).render('login', { some_error: 'No Such Username Exist' })  
+   }
+
+
+   if( user.password !== req.body.password){
+    return res.status(401).render('login', { some_error: 'Incorrect Password' })  
+   }
+   req.session.userId = user.id
+   res.redirect('/profile')
+
+
+
 })
+
+app.get('/profile', async (req,res) => {
+    
+    if(!req.session.userId){
+        res.redirect('/login')
+    }
+    const user = await Users.findByPk(req.session.userId)
+    
+    res.render('show_profile',{ user })
+
+})
+
+
+app.get('/logout', (req,res) => {
+    req.session.userId = null
+    res.redirect('/login')
+})
+
 db.sync() 
     .then(() => {
         app.listen('2222',()=>{
