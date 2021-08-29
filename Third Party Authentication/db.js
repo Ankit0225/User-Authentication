@@ -11,5 +11,24 @@ const db = User.create({
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
+  },
+  name: {
+    type: Sequelize.DataTypes.STRING(40),
+    unique: true,
+    allowNull: false
+  },
+  email:{
+    type: Sequelize.DataTypes.STRING(40),
+    allowNull: false,
+    
+  },
+  password: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: false,
+    unique: true
   }
 })
+
+module.exports ={
+  db, User
+}
