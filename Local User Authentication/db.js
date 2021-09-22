@@ -22,6 +22,10 @@ const Users = db.define('user',{
     password: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
+    },
+    avatar: {
+        type: Sequelize.DataTypes.STRING,
+        
     }
 }) 
 
